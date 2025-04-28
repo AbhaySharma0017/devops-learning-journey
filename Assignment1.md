@@ -79,13 +79,13 @@ You're now ready to:
  
 Fill in the details:
  
-- **Username**: ShivanandChouhan  
+- **Username**: Abhay
 
 - **Password**: ------  
 
-- **Full Name**: Shivanand Chouhan  
+- **Full Name**: Abhay Sharma 
 
-- **Email**: shivanand.chouhan@calsoftinc.com  
+- **Email**: abhay.svce@gmail.com
  
 Click **Save and Continue**.
  
@@ -105,19 +105,29 @@ Here’s the content of the Jenkinsfile I added to the root of my GitHub reposit
 ```
 pipeline {
     agent any
-
     stages {
-        stage('Hello World') {
+        stage('Checkout Code') {
             steps {
-                echo 'Hello, World from Jenkins!'
+                checkout scm
+            }
+        }
+        stage('Build Code') {
+            steps {
+                bat 'javac HelloWorld.java'
+            }
+        }
+        stage('Run Code') {
+            steps {
+                bat 'java HelloWorld'
             }
         }
     }
 }
+
 ```
 🔹 GitHub Repository
 The Jenkinsfile is located in this GitHub repo:
-🔗 https://github.com/Raj123-dev/Devops_Journey_2k25
+🔗 https://github.com/AbhaySharma0017/devops-learning-journey.git
 
 🔹 CI/CD Pipeline Setup in Jenkins
 To connect Jenkins with the GitHub repo:
@@ -132,7 +142,7 @@ To connect Jenkins with the GitHub repo:
 
 5.SCM: Git
 
-6.Repository URL: https://github.com/Raj123-dev/Devops_Journey_2k25.git
+6.Repository URL: https://github.com/AbhaySharma0017/devops-learning-journey.git
 
 (If private repo: added GitHub credentials)
 my repo is public so credentials do not required here
@@ -144,15 +154,15 @@ my repo is public so credentials do not required here
 ✅ Pipeline Output
 The build was triggered, and in the Jenkins console log, I saw:
 
-Started by user Shivanand Chouhan
+Started by user Abhay
 
-Obtained JENKINS1 from git https://github.com/ShivaChouhan/devops_training.git
+Obtained Jenkinsfile from git https://github.com/AbhaySharma0017/devops-learning-journey.git
 
 [Pipeline] Start of Pipeline
 
 [Pipeline] node
 
-Running on Jenkins in C:\ProgramData\Jenkins\.jenkins\workspace\Pipeline_Git1
+Running on Jenkins in C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline
 
 [Pipeline] {
 
@@ -164,35 +174,33 @@ Running on Jenkins in C:\ProgramData\Jenkins\.jenkins\workspace\Pipeline_Git1
 
 The recommended git tool is: NONE
 
-using credential Devops-Training
+using credential 4d33095c-7137-4a6f-8e56-46fde1700e76
 
 Cloning the remote Git repository
+Cloning repository https://github.com/AbhaySharma0017/devops-learning-journey.git
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe init C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline # timeout=10
 
-Cloning repository https://github.com/ShivaChouhan/devops_training.git
+Fetching upstream changes from https://github.com/AbhaySharma0017/devops-learning-journey.git
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe --version # timeout=10
 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe init C:\ProgramData\Jenkins\.jenkins\workspace\Pipeline_Git1 # timeout=10
-Fetching upstream changes from https://github.com/ShivaChouhan/devops_training.git
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe --version # timeout=10
- 
  > git --version # 'git version 2.48.1.windows.1'
-using GIT_ASKPASS to set credentials Devops-Training
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe fetch --tags --force --progress -- https://github.com/ShivaChouhan/devops_training.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe config remote.origin.url https://github.com/ShivaChouhan/devops_training.git # timeout=10
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
-Avoid second fetch
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe rev-parse "refs/remotes/origin/main^{commit}" # timeout=10
-Checking out Revision e4b4393dcbf8c91c2c192847c75428f90530eafa (refs/remotes/origin/main)
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe config core.sparsecheckout # timeout=10
- 
- > C:\Users\Shivanand.chouhan\AppData\Local\Programs\Git\cmd\git.exe checkout -f e4b4393dcbf8c91c2c192847c75428f90530eafa # timeout=10
+using GIT_ASKPASS to set credentials GitHub PAT for Jenkins
 
-Commit message: "Create JENKINS1"
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe fetch --tags --force --progress -- https://github.com/AbhaySharma0017/devops-learning-journey.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe config remote.origin.url https://github.com/AbhaySharma0017/devops-learning-journey.git # timeout=10
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+Checking out Revision 91e07a93fb2392ee02cc71e1a74d7aa846f56720 (refs/remotes/origin/master)
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe config core.sparsecheckout # timeout=10
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe checkout -f 91e07a93fb2392ee02cc71e1a74d7aa846f56720 # timeout=10
+
+Commit message: "Create helloWorld.sh"
 
 First time build. Skipping changelog.
 
@@ -200,36 +208,62 @@ First time build. Skipping changelog.
 
 [Pipeline] // stage
 
-
 [Pipeline] withEnv
 
 [Pipeline] {
 
 [Pipeline] stage
 
-[Pipeline] { (Assignment 1)
+[Pipeline] { (Checkout Code)
 
+[Pipeline] checkout
+
+The recommended git tool is: NONE
+
+using credential 4d33095c-7137-4a6f-8e56-46fde1700e76
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe rev-parse --resolve-git-dir C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline\.git # timeout=10
+
+Fetching changes from the remote Git repository
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe config remote.origin.url https://github.com/AbhaySharma0017/devops-learning-journey.git # timeout=10
+
+Fetching upstream changes from https://github.com/AbhaySharma0017/devops-learning-journey.git
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe --version # timeout=10
+
+ > git --version # 'git version 2.48.1.windows.1'
+
+using GIT_ASKPASS to set credentials GitHub PAT for Jenkins
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe fetch --tags --force --progress -- https://github.com/AbhaySharma0017/devops-learning-journey.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+Checking out Revision 91e07a93fb2392ee02cc71e1a74d7aa846f56720 (refs/remotes/origin/master)
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe config core.sparsecheckout # timeout=10
+
+ > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe checkout -f 91e07a93fb2392ee02cc71e1a74d7aa846f56720 # timeout=10
+
+Commit message: "Create helloWorld.sh"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Code)
 [Pipeline] bat
 
-
-C:\ProgramData\Jenkins\.jenkins\workspace\Pipeline_Git1>ECHO Hello World 
-
-Hello World
-
+C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline>javac HelloWorld.java 
 [Pipeline] }
-
 [Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Code)
+[Pipeline] bat
 
+C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline>java HelloWorld 
+Hello World!
 [Pipeline] }
-
+[Pipeline] // stage
+[Pipeline] }
 [Pipeline] // withEnv
-
 [Pipeline] }
-
 [Pipeline] // node
-
 [Pipeline] End of Pipeline
-
 Finished: SUCCESS
 
 🎉 Boom! Jenkins successfully cloned the repo, read the Jenkinsfile, and executed it.
