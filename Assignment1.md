@@ -242,31 +242,50 @@ Checking out Revision 91e07a93fb2392ee02cc71e1a74d7aa846f56720 (refs/remotes/ori
  > C:\Users\abhay.s\AppData\Local\Programs\Git\cmd\git.exe checkout -f 91e07a93fb2392ee02cc71e1a74d7aa846f56720 # timeout=10
 
 Commit message: "Create helloWorld.sh"
+
 [Pipeline] }
+
 [Pipeline] // stage
+
 [Pipeline] stage
+
 [Pipeline] { (Build Code)
+
 [Pipeline] bat
 
 C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline>javac HelloWorld.java 
+
 [Pipeline] }
+
 [Pipeline] // stage
+
 [Pipeline] stage
+
 [Pipeline] { (Run Code)
+
 [Pipeline] bat
 
 C:\ProgramData\Jenkins\.jenkins\workspace\HelloWorldPipeline>java HelloWorld 
+
 Hello World!
+
 [Pipeline] }
+
 [Pipeline] // stage
+
 [Pipeline] }
+
 [Pipeline] // withEnv
+
 [Pipeline] }
+
 [Pipeline] // node
+
 [Pipeline] End of Pipeline
+
 Finished: SUCCESS
 
-🎉 Boom! Jenkins successfully cloned the repo, read the Jenkinsfile, and executed it.
+🎉 Jenkins successfully cloned the repo, read the Jenkinsfile, and executed it.
 
 > And I did my first Assignment.
 > 
