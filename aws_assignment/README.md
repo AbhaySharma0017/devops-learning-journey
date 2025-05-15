@@ -12,6 +12,20 @@ This assignment demonstrates how to provision key AWS resources using AWS CLI , 
 
 ---
 
+## Setup Instructions
+
+### 1. Install AWS CLI
+
+Download and install the AWS CLI MSI installer for Windows (64-bit):
+```
+https://awscli.amazonaws.com/AWSCLIV2.msi
+```
+
+Verify installation by opening a command prompt and running:
+```
+aws --version
+```
+
 ## ✅ Tasks Completed
 
 ### 1. Provisioning EC2 using AWS CLI
