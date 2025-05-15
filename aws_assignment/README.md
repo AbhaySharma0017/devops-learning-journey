@@ -25,6 +25,25 @@ Verify installation by opening a command prompt and running:
 ```
 aws --version
 ```
+### 2. Configure AWS IAM User
+
+1. Navigate to AWS Console and search for IAM
+2. Click on "Users" and "Create user"
+3. Configure the user:
+   - Name: awsCliUser
+   - Enable console access
+4. Assign the admin permission
+5. Create the user
+
+### 3. User access through AWS CLI
+1. We need to take credential of this user
+2. Click on user
+3. Go to Security credential
+4. Click on create access key
+   - Click on Command Line Interface(CLI)
+   - check the last check button
+   - click on next
+5. Access key and Secret key is generated, we can download it also by clicking on Download.csv file.
 
 ## ✅ Tasks Completed
 
