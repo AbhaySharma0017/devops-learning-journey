@@ -105,5 +105,106 @@ Command for describe all the vpc
  aws ec2 describe-vpcs
 ```
 
+# 🚀 Deploy HelloWorld Lambda Using AWS CloudFormation (Console-Based)
 
+This project demonstrates how to deploy a simple AWS Lambda function using **AWS CloudFormation via the AWS Console**. The Lambda function is packaged in a ZIP file, stored in an S3 bucket, and deployed using a CloudFormation YAML template.
 
+---
+
+## 📌 Objective
+
+- Deploy a **HelloWorld Lambda function** using AWS CloudFormation.
+- Package the Lambda function code in a `.zip` file.
+- Upload the ZIP file to an **S3 bucket**.
+- Create an **IAM role** for Lambda.
+- Deploy everything using the **AWS Management Console** (no CLI used).
+
+---
+
+## 📁 Project Files
+
+├── hello_world.py # Lambda function code
+├── hello_world.zip # Zipped function code for deployment
+├── aws_lambda.yaml # CloudFormation template
+
+## 🪄 Steps Followed
+
+### 1. Create Lambda Function Code
+
+Created a Python file named `hello_world.py` with the following content:
+
+```python
+def lambda_handler(event, context):
+    return {
+        'statusCode': 200,
+        'body': 'Hello from Lambda!'
+    }
+```
+### 2. Zip the Code
+Zipped the Python file as hello_world.zip:
+ - Right-click on hello_world.py > Send to > Compressed (zipped) folder
+ - Verified that the ZIP file is not empty and contains only hello_world.py
+
+### 3. Upload ZIP to S3
+-Open AWS Console > S3
+-Created a new bucket  e.g., my-lambda-bucket
+-Uploaded the hello_world.zip file into the bucket
+
+### 4. Prepare CloudFormation Template
+```AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 's3:*'
+                Resource: '*'
+
+  MyLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Role: !GetAtt MyLambdaRole.Arn
+      Runtime: python3.9
+      Handler: hello_world.lambda_handler
+      Code:
+        S3Bucket: my-bucket-for-hello-world
+        S3Key: hello_world.zip
+      Tags:
+        - Key: Name
+          Value: MyLambdaFunction
+```
+### 5. Deploy via AWS Console
+1. Go to AWS Console > CloudFormation
+2. Click on Create Stack
+3. Choose With new resources (standard)
+4. Upload the aws_lambda.yaml file
+5. Provide a stack name, e.g., MyStackForLambda
+6. Acknowledge creation of IAM roles
+7. Click Create Stack
+8. Wait until stack status is CREATE_COMPLETE
+
+### 6. Test the Lambda Function
+1. Go to AWS Console > Lambda
+2. Locate function: HelloWorldLambda
+3. Click on Test
+4. Create a simple test event and run it
+5. Expected output:
+   - {
+  "statusCode": 200,
+  "body": "Hello from Lambda!"
+}
