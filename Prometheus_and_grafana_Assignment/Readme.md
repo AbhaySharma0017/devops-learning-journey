@@ -99,13 +99,13 @@ kubectl get svc -n monitoring | grep prometheus
 ```
 Example output:
 ```
-prometheus-grafana                        ClusterIP   10.108.10.57     <none>        80/TCP                       5h31m
-prometheus-kube-prometheus-alertmanager   ClusterIP   10.96.171.110    <none>        9093/TCP,8080/TCP            5h31m
-prometheus-kube-prometheus-operator       ClusterIP   10.108.167.214   <none>        443/TCP                      5h31m
-prometheus-kube-prometheus-prometheus     ClusterIP   10.108.220.86    <none>        9090/TCP,8080/TCP            5h31m
-prometheus-kube-state-metrics             ClusterIP   10.105.229.171   <none>        8080/TCP                     5h31m
-prometheus-operated                       ClusterIP   None             <none>        9090/TCP                     5h30m
-prometheus-prometheus-node-exporter       ClusterIP   10.97.218.99     <none>        9100/TCP                     5h31m
+prometheus-grafana                        ClusterIP   10.100.3.106    <none>        80/TCP                       3h27m
+prometheus-kube-prometheus-alertmanager   ClusterIP   10.99.162.176   <none>        9093/TCP,8080/TCP            3h27m
+prometheus-kube-prometheus-operator       ClusterIP   10.101.71.104   <none>        443/TCP                      3h27m
+prometheus-kube-prometheus-prometheus     ClusterIP   10.100.116.61   <none>        9090/TCP,8080/TCP            3h27m
+prometheus-kube-state-metrics             ClusterIP   10.98.164.85    <none>        8080/TCP                     3h27m
+prometheus-operated                       ClusterIP   None            <none>        9090/TCP                     3h27m
+prometheus-prometheus-node-exporter       ClusterIP   10.98.221.163   <none>        9100/TCP                     3h27m
 
 ```
 Then, I forwarded port 9090:
