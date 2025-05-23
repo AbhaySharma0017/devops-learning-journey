@@ -47,13 +47,14 @@ kubectl get pods -n monitoring
 
 Example output:
 ```
-NAME                                                     READY   STATUS    RESTARTS   AGE
-alertmanager-prometheus-kube-prometheus-alertmanager-0   2/2     Running   0          7m32s
-prometheus-grafana-77bcfb9bdb-59rhw                      3/3     Running   0          8m16s
-prometheus-kube-prometheus-operator-6d9d668dbd-tkt5z     1/1     Running   0          8m16s
-prometheus-kube-state-metrics-7457555cf7-mggv6           1/1     Running   0          8m16s
-prometheus-prometheus-kube-prometheus-prometheus-0       2/2     Running   0          7m32s
-prometheus-prometheus-node-exporter-v47x5                1/1     Running   0          8m16s
+NAME                                                     READY   STATUS    RESTARTS        AGE
+alertmanager-prometheus-kube-prometheus-alertmanager-0   2/2     Running   2 (4m16s ago)   3h15m
+prometheus-grafana-77bcfb9bdb-jxj49                      3/3     Running   3 (4m16s ago)   3h15m
+prometheus-kube-prometheus-operator-6d9d668dbd-qr5rs     1/1     Running   1 (4m16s ago)   3h15m
+prometheus-kube-state-metrics-7457555cf7-hzj79           1/1     Running   1 (4m16s ago)   3h15m
+prometheus-prometheus-kube-prometheus-prometheus-0       2/2     Running   2 (4m16s ago)   3h15m
+prometheus-prometheus-node-exporter-5wrnv                0/1     Pending   0               3h15m
+
 ```
 
 ---
