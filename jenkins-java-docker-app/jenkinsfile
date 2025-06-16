@@ -1,0 +1,30 @@
+pipeline {
+    agent { label 'jenkins-slave' }
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/YourUsername/jenkins-java-docker-app.git'
+            }
+        }
+
+        stage('Build Java') {
+            steps {
+                sh 'javac Main.java'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}")
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker run -d --name java-jenkins-app -p 8080:8080 jenkins-java-image'
+            }
+        }
+    }
+}
