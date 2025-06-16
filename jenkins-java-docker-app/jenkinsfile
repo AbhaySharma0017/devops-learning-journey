@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/AbhaySharma0017/devops-learning-journey/tree/156205b425bcfbf8a2037e481d333135c235ea47/jenkins-java-docker-app'
+                git 'https://github.com/AbhaySharma0017/devops-learning-journey/tree/8051095d780d37e7e8d9e16e9871058b361115cd/jenkins-java-docker-app'
             }
         }
 
