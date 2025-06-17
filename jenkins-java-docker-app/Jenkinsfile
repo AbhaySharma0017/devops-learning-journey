@@ -1,6 +1,13 @@
 pipeline {
     agent { label 'jenkins-slave' }
     stages {
+        stage('Check OS') {
+    steps {
+        sh 'uname -a'
+    }
+}
+
+        
         stage('Clone') {
             steps {
                 git 'https://github.com/AbhaySharma0017/devops-learning-journey.git'
