@@ -8,12 +8,7 @@ pipeline {
 }
 
         
-        stage('Clone') {
-            steps {
-                git 'https://github.com/AbhaySharma0017/devops-learning-journey.git'
-            }
-        }
-
+        
         stage('Build Java') {
             steps {
                 sh 'src/javac Main.java'
