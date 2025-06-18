@@ -1,11 +1,6 @@
 pipeline {
     agent { label 'jenkins-slave' }
 
-    environment {
-        IMAGE_TAG = "jenkins-java-image:${BUILD_NUMBER}"
-        CONTAINER_NAME = "java-jenkins-app"
-    }
-
     stages {
         stage('Check OS') {
             steps {
@@ -13,26 +8,23 @@ pipeline {
             }
         }
 
-        stage('Clone') {
+        stage('Build Java') {
             steps {
-                git 'https://github.com/AbhaySharma0017/devops-learning-journey.git'
+                sh 'javac src/Main.java'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_TAG}", ".")
+                    dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}")
                 }
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                script {
-                    sh "docker rm -f ${CONTAINER_NAME} || true"
-                    sh "docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_TAG}"
-                }
+                sh 'docker run -d --name java-jenkins-app -p 8080:8080 jenkins-java-image:' + "${BUILD_NUMBER}"
             }
         }
     }
