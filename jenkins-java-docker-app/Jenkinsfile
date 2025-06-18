@@ -10,14 +10,18 @@ pipeline {
 
         stage('Build Java') {
             steps {
-                sh 'javac src/Main.java'
+                dir('jenkins-java-docker-app') {
+                    sh 'javac src/Main.java'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}")
+                dir('jenkins-java-docker-app') {
+                    script {
+                        dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}")
+                    }
                 }
             }
         }
