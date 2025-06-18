@@ -1,11 +1,17 @@
 pipeline {
     agent { label 'jenkins-slave' }
+
+    environment {
+        IMAGE_TAG = "jenkins-java-image:${BUILD_NUMBER}"
+        CONTAINER_NAME = "java-jenkins-app"
+    }
+
     stages {
         stage('Check OS') {
-    steps {
-        sh 'uname -a'
-    }
-}
+            steps {
+                sh 'uname -a'
+            }
+        }
 
         stage('Clone') {
             steps {
@@ -13,19 +19,20 @@ pipeline {
             }
         }
 
-        
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}","jenkins-java-docker-app")
+                    dockerImage = docker.build("${IMAGE_TAG}", ".")
                 }
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                sh 'docker run -d --name java-jenkins-app -p 8080:8080 jenkins-java-image'
+                script {
+                    sh "docker rm -f ${CONTAINER_NAME} || true"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_TAG}"
+                }
             }
         }
     }
