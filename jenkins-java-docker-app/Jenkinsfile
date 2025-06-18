@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}")
+                    dockerImage = docker.build("jenkins-java-image:${BUILD_NUMBER}","jenkins-java-docker-app")
                 }
             }
         }
