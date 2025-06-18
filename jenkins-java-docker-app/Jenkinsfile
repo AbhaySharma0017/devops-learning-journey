@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Java') {
             steps {
-                sh 'javac Main.java'
+                sh 'src/javac Main.java'
             }
         }
 
