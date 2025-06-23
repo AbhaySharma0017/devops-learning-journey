@@ -1,22 +1,33 @@
-# buildspec.yml
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto11
+      docker: 20
+    commands:
+      - echo "✅ Install phase: Environment ready"
+
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <your_account_id>.dkr.ecr.us-east-1.amazonaws.com
-      - REPO_URI=<your_account_id>.dkr.ecr.us-east-1.amazonaws.com/java-docker-app
+      - echo "🔍 Checking OS..."
+      - uname -a
+
   build:
     commands:
-      - echo Build started on `date`
-      - mvn clean package
-      - docker build -t java-docker-app .
-      - docker tag java-docker-app:latest $REPO_URI:latest
+      - echo "📁 Moving into app directory"
+      - cd jenkins-java-docker-app
+      - echo "🛠️ Compiling Java code"
+      - javac src/Main.java
+      - echo "🐳 Building Docker image"
+      - IMAGE_TAG=jenkins-java-image:$CODEBUILD_BUILD_NUMBER
+      - docker build -t $IMAGE_TAG .
+
   post_build:
     commands:
-      - docker push $REPO_URI:latest
+      - echo "🚀 Running Docker container"
+      - docker run -d --name java-jenkins-app -p 8080:8080 jenkins-java-image:$CODEBUILD_BUILD_NUMBER
 
 artifacts:
-  files: []
-
+  files:
+    - '**/*'
