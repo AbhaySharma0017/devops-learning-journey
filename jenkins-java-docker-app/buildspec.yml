@@ -10,6 +10,10 @@ phases:
 
   pre_build:
     commands:
+      - echo "🔐 Logging in to Amazon ECR"
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 510001482086.dkr.ecr.us-east-1.amazonaws.com
+      - REPO_URI=510001482086.dkr.ecr.us-east-1.amazonaws.com/hello-app
+      - IMAGE_TAG=$REPO_URI:$CODEBUILD_BUILD_NUMBER
       - echo "🔍 Checking OS..."
       - uname -a
 
@@ -20,13 +24,13 @@ phases:
       - echo "🛠️ Compiling Java code"
       - javac src/Main.java
       - echo "🐳 Building Docker image"
-      - IMAGE_TAG=jenkins-java-image:$CODEBUILD_BUILD_NUMBER
-      - docker build -t $IMAGE_TAG .
+      - docker build -t hello-app .
+      - docker tag hello-app:latest $IMAGE_TAG
 
   post_build:
     commands:
-      - echo "🚀 Running Docker container"
-      - docker run -d --name java-jenkins-app -p 8080:8080 jenkins-java-image:$CODEBUILD_BUILD_NUMBER
+      - echo "🚀 Pushing Docker image to ECR"
+      - docker push $IMAGE_TAG
 
 artifacts:
   files:
