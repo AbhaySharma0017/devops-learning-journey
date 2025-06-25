@@ -6,7 +6,7 @@ phases:
       java: corretto11
       docker: 20
     commands:
-      - echo "✅ Install phase: Environment ready"
+      - echo "Install phase"
 
   pre_build:
     commands:
