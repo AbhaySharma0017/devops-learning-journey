@@ -1,5 +1,6 @@
 # Use OpenJDK image
-FROM openjdk:17-alpine
+FROM public.ecr.aws/docker/library/openjdk:17-alpine
+
 
 
 WORKDIR /app
