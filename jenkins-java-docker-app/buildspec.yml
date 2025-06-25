@@ -4,9 +4,8 @@ phases:
   install:
     runtime-versions:
       java: corretto11
-      docker: 20
     commands:
-      - echo "Install phase"
+      - echo "✅ Install phase started"
 
   pre_build:
     commands:
@@ -31,6 +30,7 @@ phases:
     commands:
       - echo "🚀 Pushing Docker image to ECR"
       - docker push $IMAGE_TAG
+      - echo "✅ Build and push complete"
 
 artifacts:
   files:
