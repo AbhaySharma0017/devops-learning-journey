@@ -6,7 +6,8 @@ phases:
       java: corretto11
     commands:
       - echo "✅ Install phase started"
-      - curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      - KUBECTL_VERSION=$(curl -s https://dl.k8s.io/release/stable.txt)
+      - curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
       - chmod +x kubectl
       - mv kubectl /usr/local/bin/
 
@@ -14,18 +15,15 @@ phases:
     commands:
       - echo "🔐 Logging in to Amazon ECR"
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 510001482086.dkr.ecr.us-east-1.amazonaws.com
-      - REPO_URI=510001482086.dkr.ecr.us-east-1.amazonaws.com/hello-app
-      - IMAGE_TAG=$REPO_URI:$CODEBUILD_BUILD_NUMBER
-      - echo "🔍 Checking OS..."
-      - uname -a
+      - export REPO_URI=510001482086.dkr.ecr.us-east-1.amazonaws.com/hello-app
+      - export IMAGE_TAG=$REPO_URI:$CODEBUILD_BUILD_NUMBER
 
   build:
     commands:
-      - echo "📁 Moving into app directory"
+      - echo "📁 Moving into app directory and building project"
       - cd jenkins-java-docker-app
-      - echo "🛠️ Compiling Java code"
       - javac src/Main.java
-      - echo "🐳 Building Docker image"
+      - echo "🐳 Building and tagging Docker image"
       - docker build -t hello-app .
       - docker tag hello-app:latest $IMAGE_TAG
 
@@ -34,7 +32,7 @@ phases:
       - echo "🚀 Pushing Docker image to ECR"
       - docker push $IMAGE_TAG
 
-      - echo "📝 Creating deployment manifest"
+      - echo "📄 Creating Kubernetes deployment and service manifests"
       - |
         cat <<EOF > deployment.yaml
         apiVersion: apps/v1
@@ -58,7 +56,6 @@ phases:
                 - containerPort: 8080
         EOF
 
-      - echo "🌐 Creating service manifest"
       - |
         cat <<EOF > service.yaml
         apiVersion: v1
@@ -75,15 +72,15 @@ phases:
             targetPort: 8080
         EOF
 
-      - echo "📡 Updating kubeconfig"
+      - echo "📡 Configuring kubectl with EKS"
       - aws eks update-kubeconfig --region us-east-1 --name hello-cluster
 
-      - echo "📦 Applying deployment"
+      - echo "🚀 Deploying to EKS"
       - kubectl apply -f deployment.yaml
-      - echo "🌍 Applying service"
       - kubectl apply -f service.yaml
 
 artifacts:
   files:
     - '**/*'
+
 
