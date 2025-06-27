@@ -6,6 +6,9 @@ phases:
       java: corretto11
     commands:
       - echo "✅ Install phase started"
+      - curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      - chmod +x kubectl
+      - mv kubectl /usr/local/bin/
 
   pre_build:
     commands:
@@ -30,8 +33,57 @@ phases:
     commands:
       - echo "🚀 Pushing Docker image to ECR"
       - docker push $IMAGE_TAG
-      - echo "✅ Build and push complete"
+
+      - echo "📝 Creating deployment manifest"
+      - |
+        cat <<EOF > deployment.yaml
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: hello-deployment
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: hello-app
+          template:
+            metadata:
+              labels:
+                app: hello-app
+            spec:
+              containers:
+              - name: hello-container
+                image: $IMAGE_TAG
+                ports:
+                - containerPort: 8080
+        EOF
+
+      - echo "🌐 Creating service manifest"
+      - |
+        cat <<EOF > service.yaml
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: hello-service
+        spec:
+          type: LoadBalancer
+          selector:
+            app: hello-app
+          ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 8080
+        EOF
+
+      - echo "📡 Updating kubeconfig"
+      - aws eks update-kubeconfig --region us-east-1 --name hello-cluster
+
+      - echo "📦 Applying deployment"
+      - kubectl apply -f deployment.yaml
+      - echo "🌍 Applying service"
+      - kubectl apply -f service.yaml
 
 artifacts:
   files:
     - '**/*'
+
