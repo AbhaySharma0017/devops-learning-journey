@@ -6,10 +6,10 @@ phases:
       java: corretto11
     commands:
       - echo "✅ Install phase started"
-      - curl -LO "$(curl -s https://dl.k8s.io/release/stable.txt | xargs -I {} echo https://dl.k8s.io/release/{}/bin/linux/amd64/kubectl)"
+      - echo "📥 Downloading kubectl v1.32.3"
+      - curl -LO "https://dl.k8s.io/release/v1.32.3/bin/linux/amd64/kubectl"
       - chmod +x kubectl
       - mv kubectl /usr/local/bin/
-
 
   pre_build:
     commands:
@@ -82,5 +82,3 @@ phases:
 artifacts:
   files:
     - '**/*'
-
-
