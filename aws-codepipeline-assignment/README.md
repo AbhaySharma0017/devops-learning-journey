@@ -12,7 +12,6 @@ Below is a detailed explanation of the steps I took, key configurations, and imp
 
 - URI generated: 510001482086.dkr.ecr.us-east-1.amazonaws.com/simple-web-app
 
-
 ## 🔹 Step 2: Create CodePipeline
 
 - Go to AWS Console > CodePipeline
