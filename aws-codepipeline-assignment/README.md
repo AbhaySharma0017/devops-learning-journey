@@ -1,5 +1,5 @@
 # 📦 AWS CodePipeline Assignment - Weather App CI/CD 🚀
-In this assignment, I reused the same Weather App (Flask-based) that I previously implemented using Jenkins and GitHub Actions. This time, I deployed the app using AWS CodePipeline, along with ECR (Elastic Container Registry), CodeBuild, and ECS (Elastic Container Service).
+In this assignment, I reused the same Weather App (Flask-based) that I previously implemented using Jenkins and. This time, I deployed the app using AWS CodePipeline, along with ECR (Elastic Container Registry), CodeBuild, and ECS (Elastic Container Service).
 
 Below is a detailed explanation of the steps I took, key configurations, and important screenshots to add.
 
@@ -59,8 +59,6 @@ Timeout: 1 hour
 
 Buildspec location: Use a buildspec file in the repo
 
-📸 Screenshot to include: CodeBuild project setup with privileges
-
 ## 🔹 Step 5: Add Build Stage in Pipeline
 
 - Provider: AWS CodeBuild
@@ -108,8 +106,6 @@ artifacts:
 
 - Name: weather-app-cluster
 
-📸 Screenshot to include: ECS cluster created
-
 ## 🔹 Step 7: Create Task Definition
 
 - Launch Type: Fargate
@@ -121,8 +117,6 @@ artifacts:
 - Image: 510001482086.dkr.ecr.us-east-1.amazonaws.com/simple-web-app
 
 - Port mapping: 8080
-
-📸 Screenshot to include: Task definition created
 
 ## 🔹 Step 8: Create ECS Service
 
@@ -138,8 +132,6 @@ artifacts:
 
 - Security Group: Inbound TCP 8080 from 0.0.0.0/0
 
-📸 Screenshot to include: Service running with public IP
-
 ## 🔹 Step 9: Add Deploy Stage in Pipeline
 
 - Provider: Amazon ECS
@@ -152,17 +144,11 @@ artifacts:
 
 - Image definition file: imagedefinitions.json
 
-📸 Screenshot to include: Deploy stage success
-
-
-
 ## 🛠️ Permissions Fixes
 
 - Attached AmazonEC2ContainerRegistryPowerUser to CodeBuild role
 
 - Attached AmazonECS_FullAccess to CodePipeline role
-
-📸 Screenshot to include: IAM roles and policies attached
 
 📌 Summary
 
