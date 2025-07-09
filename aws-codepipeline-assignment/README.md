@@ -55,8 +55,6 @@ Below is a detailed explanation of the steps I took, key configurations, and imp
 
 Role: codebuild-weather-app-service-role
 
-Timeout: 1 hour
-
 Buildspec location: Use a buildspec file in the repo
 
 ## 🔹 Step 5: Add Build Stage in Pipeline
