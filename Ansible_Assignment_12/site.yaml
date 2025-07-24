@@ -1,9 +1,15 @@
 ---
 - name: Linux server setup
-  hosts: all
+  hosts: server
   become: true
 
   roles:
     - linux_patching
     - tomcat_install
     - dns_changes
+
+- name: window iis_setup
+  hosts: winserver
+
+  roles:
+    - win_iis
